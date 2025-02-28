@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runge-Kutta</title>
+    <style>
+        body {
+            ont-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+        .container {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1060px;
+            text-align: center;
+        }
+        .instructions {
+            text-align: left;
+            background: #eef4ff;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 15px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 90%;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+            overflow-x: auto;
+        
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Método de Runge-Kutta</h1>
+    <div class="instructions">
+        <h2>Instrucciones para Ingresar los Datos:</h2>
+    <ul>
+        <li><strong>Función:</strong> Ingresa la ecuación diferencial que deseas resolver. Usa operadores y funciones matemáticas de Python, como `sin(x)`, `cos(x)`, `exp(x)`, `log(x)`, etc. Asegúrate de usar `**` para exponentes (por ejemplo, `x**2` para x al cuadrado).</li>
+        <li><strong>Condiciones iniciales:</strong> Ingresa los valores iniciales de <code>x0</code> y <code>y0</code> (por ejemplo, 0 y 1).</li>
+        <li><strong>Paso:</strong> Ingresa el valor del paso <code>h</code> (por ejemplo, 0.1).</li>
+        <li><strong>Iteraciones:</strong> Ingresa el número de iteraciones <code>n</code> que deseas realizar.</li>
+        <li><strong>Solución exacta (opcional):</strong> Si deseas calcular el error absoluto, ingresa la función de la solución exacta.</li>
+    </ul>
+
+    <h2>Ejemplos de Sintaxis:</h2>
+    <ul>
+        <li><strong>Suma de cuadrados:</strong> `x**2 + y`</li>
+        <li><strong>Logaritmo:</strong> `log(x)`</li>
+        <li><strong>Exponencial:</strong> `exp(x)`</li>
+        <li><strong>Funciones trigonométricas:</strong> `sin(x)`, `cos(x)`, `tan(x)`</li>
+        <li><strong>Funciones hiperbólicas:</strong> `tanh(x)`</li>
+    </ul>
+
+    <h2>¿Cómo funciona el algoritmo?</h2>
+    <p>Este es un algoritmo numérico para resolver ecuaciones diferenciales de primer orden. El método de Runge-Kutta calcula una aproximación de la solución en varios puntos. En cada iteración, se calculan los valores de los coeficientes <code>k1</code>, <code>k2</code>, <code>k3</code> y <code>k4</code>, que son utilizados para calcular el valor aproximado de <code>y</code> en el siguiente paso.</p>
+    <p>Si proporcionas una solución exacta, se calculará el error absoluto en cada paso, lo cual te permitirá comparar los resultados aproximados con los valores reales.</p>
+
+    </div>
+    <form method="POST">
+        Función f(x, y): <input type="text" name="funcion" required><br>
+        x0: <br>
+         <input type="text" name="x0"><br>
+        y0:<br>
+         <input type="text" name="y0"><br>
+        h:<br> <input type="text" name="h"><br>
+        n:<br> <input type="text" name="n"><br>
+        <input type="submit" value="Calcular">
+    </form>
+
+    <div style="overflow-x:auto;">
+    {% if resultado %}
+            <h2>Resultados:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>x</th>
+                        <th>y</th>
+                        <th>Error Absoluto</th>
+                        <th>k1</th>
+                        <th>k2</th>
+                        <th>k3</th>
+                        <th>k4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in resultado %}
+                        <tr>
+                            <td>{{ row.x }}</td>
+                            <td>{{ row.y }}</td>
+                           
+                            <td>
+                                {% if row.error_absoluto is not none %}
+                                    {{ row.error_absoluto }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+
+                            <td>{{ row.k1 }}</td>
+                            <td>{{ row.k2 }}</td>
+                            <td>{{ row.k3 }}</td>
+                            <td>{{ row.k4 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <button class="btn" onclick="window.location.href = '/';">Volver</button>
+    </div>
+</body>
+</html>

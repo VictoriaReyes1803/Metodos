@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Euler Mejorado</title>
+    <style>
+        body {
+            ont-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+        .container {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1060px;
+            text-align: center;
+        }
+        .instructions {
+            text-align: left;
+            background: #eef4ff;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 15px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 90%;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+            overflow-x: auto;
+        
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+    <h1>Método de Euler Mejorado</h1>
+
+    <div class="instructions">
+        <h3>Instrucciones:</h3>
+        <p>Ingrese los siguientes valores:</p>
+        <ul>
+            <li><b>Función f(x, y)</b>: Debe estar en términos de <code>x</code> y <code>y</code>. Ejemplo: <code>x + y</code></li>
+            <li><b>x0</b>: Valor inicial de <code>x</code> (Ejemplo: 0)</li>
+            <li><b>y0</b>: Valor inicial de <code>y</code> (Ejemplo: 1)</li>
+            <li><b>h</b>: Tamaño del paso (Ejemplo: 0.1)</li>
+            <li><b>n</b>: Número de iteraciones (Ejemplo: 10)</li>
+        </ul>
+        <p>Ejemplo de entrada:</p>
+        <ul>
+            <li>Función: <code>x + y</code></li>
+            <li>x0: <code>0</code></li>
+            <li>y0: <code>1</code></li>
+            <li>h: <code>0.1</code></li>
+            <li>n: <code>10</code></li>
+        </ul>
+    </div>
+
+    <form method="POST">
+        <label>Función f(x, y):</label>
+        <input type="text" name="funcion" required placeholder="Ejemplo: x + y"><br>
+        <label>x0:</label> <br>
+        <input type="text" name="x0" required><br>
+        <label>y0:</label><br>
+        <input type="text" name="y0" required><br>
+        <label>h (paso):</label><br>
+        <input type="text" name="h" required><br>
+        <label>n (iteraciones):</label>
+        <input type="text" name="n" required><br>
+        <input type="submit" value="Calcular">
+    </form>
+    <div style="overflow-x:auto;">
+    {% if resultado %}
+        <h2>Resultados:</h2>
+        <table border="1">
+            <tr>
+                <th>Iteración</th>
+                <th>x</th>
+                <th>y</th>
+                <th>f(x_n, y_n)</th>
+                <th>y_pred</th>
+                <th>f(x_{n+1}, y_pred)</th>
+                <th>y_{n+1}</th>
+            </tr>
+            {% for i in range(resultado|length) %}
+                <tr>
+               
+                    <td>{{ resultado[i][0] }}</td>
+                    <td>{{ resultado[i][1] }}</td>
+                    <td>{{ resultado[i][2] }}</td>
+                    <td>{{ resultado[i][3] }}</td>
+                    <td>{{ resultado[i][4] }}</td>
+                    <td>{{ resultado[i][5] }}</td>
+                    <td>{{ resultado[i][6] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    <button class="btn" onclick="window.location.href = '/';">Volver</button>
+    </div>
+</div>
+</body>
+</html>

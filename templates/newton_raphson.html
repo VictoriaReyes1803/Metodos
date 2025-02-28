@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Newton-Raphson</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            font-size: 18px;
+        }
+        p {
+            text-align: left;
+            font-size: 14px;
+        }
+        ul {
+            text-align: left;
+            font-size: 14px;
+        }
+        form {
+            margin-top: 15px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 90%;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #e7f4e4;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #2c662d;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .instructions {
+            text-align: left;
+            background: #eef4ff;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Método de Newton-Raphson</h1>
+    <div class="instructions">
+    <h2>Instrucciones</h2>
+    <p>Ingrese la función <strong>f(x)</strong> utilizando la sintaxis matemática correcta. Algunas reglas:</p>
+    <ul>
+        <li>Usar <code>**</code> para exponentes en lugar de <code>^</code> (Ejemplo: <code>x**2</code> en vez de <code>x^2</code>).</li>
+        <li>Funciones trigonométricas soportadas: <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>, etc.</li>
+        <li>Para logaritmo natural, usar <code>ln(x)</code>.</li>
+        <li>Para exponenciales, usar <code>exp(x)</code> o <code>e**x</code>.</li>
+        <li>Usar <code>*</code> para multiplicaciones explícitas (Ejemplo: <code>2*x</code> en vez de <code>2x</code>).</li>
+    </ul>
+</div>
+    <form method="POST">
+        <label for="funcion">Función f(x):</label>
+        <input type="text" id="funcion" name="funcion" required>
+        <br>
+        <label for="x0">x0:</label>
+        <br>
+        <input type="number" step="any" id="x0" name="x0" required>
+
+        <label for="tol">Tolerancia:</label>
+        <input type="number" step="any" id="tol" name="tol" value="0.0001" required>
+
+        <input type="submit" value="Calcular">
+    </form>
+
+    {% if iteraciones %}
+        <table>
+            <tr>
+                <th>Iteración</th>
+                <th>x</th>
+                <th>f(x)</th>
+                <th>Derivada f'(x)</th>
+            </tr>
+            {% for iteracion in iteraciones %}
+            <tr>
+                <td>{{ iteracion.iter }}</td>
+                <td>{{ iteracion.x }}</td>
+                <td>{{ iteracion.fx }}</td>
+                <td>{{ iteracion.dfx }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="result">
+            <h2>Raíz aproximada: {{ resultado }}</h2>
+            <p>Encontrada en {{ iteraciones|length }} iteraciones.</p>
+        </div>
+    {% endif %}
+
+    <button class="btn" onclick="window.location.href = '/';">Volver</button>
+</div>
+
+</body>
+</html>
