@@ -2,29 +2,46 @@
 import numpy as np
 import sympy as sp
 
-def euler_mejorado(f_expr, x0, y0, h, n):
+def euler_mejorado(f_expr, x0, y0, h, n, xf,decimales=None):
     x, y = sp.symbols('x y')
     f = sp.sympify(f_expr)  
     print (f)
-    f_lambda = sp.lambdify((x, y), f, 'math') 
-
+    f_lambda = sp.lambdify((x, y), f, 'math')
+    print(xf)
     resultados = []
     
     for i in range(n):
-        f_xn_yn = f_lambda(x0, y0)  # f(x_n, y_n)
-        y_pred = y0 + h * f_xn_yn  # y_pred
-        f_xnp1_ypred = f_lambda(x0 + h, y_pred)  # f(x_{n+1}, y_pred)
-        y_corr = y0 + (h / 2) * (f_xn_yn + f_xnp1_ypred)  # y_n+1
+        f_xn_yn = float(f_lambda(x0, y0)) 
+        y_pred = float(y0 + h * f_xn_yn)  
+        f_xnp1_ypred = float(f_lambda(x0 + h, y_pred))  
+        y_corr = float(y0 + (h / 2) * (f_xn_yn + f_xnp1_ypred))  
         
-        resultados.append((i, x0, y0, f_xn_yn, y_pred, f_xnp1_ypred, y_corr))
+        x_next = float(x0 + h)  
+
+        if decimales is not None:
+            x_next = round(x_next, decimales)
+            y_corr = round(y_corr, decimales)
+            f_xn_yn = round(f_xn_yn, decimales)
+            y_pred = round(y_pred, decimales)
+            f_xnp1_ypred = round(f_xnp1_ypred, decimales)
+
+        resultados.append({
+            'iteracion': i,
+            'x': x0,
+            'y': y0,
+            'f_xn_yn': f_xn_yn,
+            'y_pred': y_pred,
+            'f_xnp1_ypred': f_xnp1_ypred,
+            'y_corr': y_corr
+        })
         
-        x0 += h
+        x0 = x_next
         y0 = y_corr
     print (resultados)
     return resultados
 
 
-def runge_kutta(f_expr, x0, y0, h, n,actual_solution=None):
+def runge_kutta(f_expr, x0, y0, h, n,actual_solution=None,decimales=None):
     x, y = sp.symbols('x y')
     f = sp.sympify(f_expr)  
     print (f)
@@ -41,7 +58,18 @@ def runge_kutta(f_expr, x0, y0, h, n,actual_solution=None):
         
         error_absoluto = abs(actual_solution(x_next) - yn) if actual_solution else None
         
+        if decimales is not None:
+            x_next = round(x_next, decimales)
+            yn = round(yn, decimales)
+            k1 = round(k1, decimales)
+            k2 = round(k2, decimales)
+            k3 = round(k3, decimales)
+            k4 = round(k4, decimales)
+            if error_absoluto is not None:
+                error_absoluto = round(error_absoluto, decimales)
+                
         resultados.append({
+            'i': i,
             'x': x_next,
             'y': yn,
             'error_absoluto': error_absoluto,

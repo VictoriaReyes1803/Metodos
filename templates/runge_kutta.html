@@ -128,7 +128,10 @@
         y0:<br>
          <input type="text" name="y0"><br>
         h:<br> <input type="text" name="h"><br>
-        n:<br> <input type="text" name="n"><br>
+        <label>xf:</label><br>
+        <input type="text" name="xf" required><br>
+
+        Decimales:<br> <input type="text" name="decimales"><br>
         <input type="submit" value="Calcular">
     </form>
 
@@ -138,6 +141,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>iteracion</th>
                         <th>x</th>
                         <th>y</th>
                         <th>Error Absoluto</th>
@@ -150,6 +154,7 @@
                 <tbody>
                     {% for row in resultado %}
                         <tr>
+                            <td>{{ row.i }}</td>
                             <td>{{ row.x }}</td>
                             <td>{{ row.y }}</td>
                            

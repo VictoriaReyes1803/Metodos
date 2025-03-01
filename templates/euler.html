@@ -124,12 +124,15 @@
         <input type="text" name="funcion" required placeholder="Ejemplo: x + y"><br>
         <label>x0:</label> <br>
         <input type="text" name="x0" required><br>
+        <label>xf:</label><br>
+        <input type="text" name="xf" required><br>
         <label>y0:</label><br>
         <input type="text" name="y0" required><br>
         <label>h (paso):</label><br>
         <input type="text" name="h" required><br>
-        <label>n (iteraciones):</label>
-        <input type="text" name="n" required><br>
+       
+        <label>Decimales</label>
+        <input type="text" name="decimales" required><br>
         <input type="submit" value="Calcular">
     </form>
     <div style="overflow-x:auto;">
@@ -145,18 +148,17 @@
                 <th>f(x_{n+1}, y_pred)</th>
                 <th>y_{n+1}</th>
             </tr>
-            {% for i in range(resultado|length) %}
-                <tr>
-               
-                    <td>{{ resultado[i][0] }}</td>
-                    <td>{{ resultado[i][1] }}</td>
-                    <td>{{ resultado[i][2] }}</td>
-                    <td>{{ resultado[i][3] }}</td>
-                    <td>{{ resultado[i][4] }}</td>
-                    <td>{{ resultado[i][5] }}</td>
-                    <td>{{ resultado[i][6] }}</td>
-                </tr>
-            {% endfor %}
+            {% for res in resultado %}
+    <tr>
+        <td>{{ res.iteracion }}</td>
+        <td>{{ res.x }}</td>
+        <td>{{ res.y }}</td>
+        <td>{{ res.f_xn_yn }}</td>
+        <td>{{ res.y_pred }}</td>
+        <td>{{ res.f_xnp1_ypred }}</td>
+        <td>{{ res.y_corr }}</td>
+    </tr>
+{% endfor %}
         </table>
     {% endif %}
     <button class="btn" onclick="window.location.href = '/';">Volver</button>

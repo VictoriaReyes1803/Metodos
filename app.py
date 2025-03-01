@@ -20,9 +20,12 @@ def euler():
             x0 = float(request.form["x0"])
             y0 = float(request.form["y0"])
             h = float(request.form["h"])
-            n = int(request.form["n"])
-
-            resultado = euler_mejorado(funcion, x0, y0, h, n)
+            
+            xf = float(request.form["xf"])
+            decimales = int(float(request.form['decimales'])) if request.form.get('decimales') else 6
+            n = int((xf - x0) / h)
+            print(n)
+            resultado = euler_mejorado(funcion, x0, y0, h, n, xf,decimales=decimales)
 
         except Exception as e:
             resultado = f"Error: {str(e)}"
@@ -53,10 +56,11 @@ def runge_kutta_view():
                 x0 = float(request.form['x0'])
                 y0 = float(request.form['y0'])
                 h = float(request.form['h'])
-                n = int(request.form['n'])   
+                xf = float(request.form['xf'])
+                n = int((xf - x0) / h) 
+                decimales = int(float(request.form['decimales'])) if request.form.get('decimales') else 6
                 
-                
-                resultado = runge_kutta(funcion, x0, y0, h, n, actual_solution(funcion, x0, y0))
+                resultado = runge_kutta(funcion, x0, y0, h, n, actual_solution(funcion, x0, y0),decimales=decimales)
             except Exception as e:
                 resultado = f"Error al evaluar la función: {str(e)}"
 
